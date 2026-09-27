@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>数直線の数字をあてよう</title>
+<style>
+:root{font-family:"UD デジタル 教科書体 N-R","UD Digi Kyokasho N-R","BIZ UDPGothic",sans-serif;color:#21344c;background:#f0f7fa}*{box-sizing:border-box}body{margin:0}button,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,select:focus-visible{outline:3px solid #1c79c9;outline-offset:2px}.app{max-width:1050px;margin:auto;padding:18px 20px 32px}h1{font-size:clamp(25px,3vw,37px);margin:0 0 5px;color:#184d72}p{margin:0}.subtitle{color:#506579}.settings{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:end;margin:18px 0;padding:16px;background:white;border:1px solid #d7e7f0;border-radius:18px;box-shadow:0 4px 16px #17405c0c}label{display:grid;gap:5px;font-weight:bold}select{min-height:45px;border:2px solid #c1d8e4;border-radius:10px;background:white;color:#18374c;padding:6px 11px;font-size:17px}.start,.next{border:0;border-radius:12px;background:#176e9d;color:white;font-weight:bold;padding:11px 22px;min-height:47px;font-size:17px}.start:hover,.next:hover{background:#10577f}.board{background:white;border-radius:20px;border:1px solid #d7e7f0;padding:18px 22px 25px;box-shadow:0 7px 22px #17384e12}.top{display:flex;justify-content:space-between;gap:8px;align-items:center;font-weight:bold}.badge{background:#e8f6fb;border-radius:30px;padding:7px 14px}.settingsButton{border:1px solid #a4c5d5;border-radius:20px;background:#fff;color:#315d77;font-size:14px;padding:8px 12px;min-height:38px}.prompt{text-align:center;font-size:clamp(20px,2.8vw,29px);font-weight:bold;margin:18px 0 0}.subprompt{text-align:center;color:#536b7a;margin-top:7px}.lineWrap{width:100%;overflow-x:auto;margin:17px 0 4px}.lineWrap svg{display:block;width:100%;min-width:620px;height:auto}.choiceGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:700px;margin:12px auto}.choice,.key{background:#f5fbff;border:2px solid #84b9d3;border-radius:15px;color:#163b55;font-weight:bold;min-height:64px;font-size:29px}.choice:hover,.key:hover{background:#e1f3fd}.choice:disabled,.key:disabled{opacity:.55;cursor:default}.choice.correct{background:#d8f4dc;border-color:#32a661;opacity:1}.choice.wrong{background:#ffe6e3;border-color:#d3655b;opacity:1}.padArea{max-width:345px;margin:8px auto}.display{height:56px;text-align:center;border:2px solid #8bb6c9;border-radius:12px;background:#f7fbff;font-size:30px;font-weight:bold;line-height:52px}.placeholder{color:#8797a3;font-size:19px}.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.key{min-height:51px;font-size:23px}.key.action{font-size:16px;background:#e5f3fa}.key.submit{background:#176e9d;color:white;border-color:#176e9d;font-size:20px}.key.submit:disabled{background:#a8bbc8;border-color:#a8bbc8}.feedback{min-height:54px;text-align:center;font-size:21px;font-weight:bold;padding:9px 5px}.feedback.good{color:#18753a}.feedback.bad{color:#bc433b}.below{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}.hint{border:2px solid #adc9d7;background:white;color:#22516c;border-radius:11px;padding:9px 18px;min-height:45px;font-weight:bold}.hintText{text-align:center;min-height:26px;margin-top:8px;color:#486a80}.hidden{display:none!important}.summary{text-align:center;padding:35px 10px}.summary strong{font-size:42px;color:#176e9d}.summary p{margin:16px 0}.note{font-size:14px;color:#647887;text-align:center;margin-top:12px}.correctMark{position:fixed;z-index:10;top:50%;left:50%;font-family:Arial,sans-serif;font-size:min(55vw,410px);font-weight:400;line-height:1;color:#e42129;text-shadow:0 2px 4px #fff;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.35)}.correctMark.show{animation:mark 1.35s ease-out forwards}@keyframes mark{0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}19%{opacity:.95;transform:translate(-50%,-50%) scale(1.04)}70%{opacity:.95;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.06)}}@media(max-width:680px){.app{padding:11px}.settings{gap:11px;padding:12px}.settings label{flex:1 1 125px}.settings select{width:100%}.board{padding:12px 8px 20px}.choiceGrid{gap:7px}.choice{min-height:59px;font-size:24px}.prompt{margin-top:15px}.top{font-size:14px}.badge{padding:7px 9px}.settingsButton{font-size:12px;padding:5px 7px}}
+</style>
+<style>
+.identity{display:grid;gap:7px;margin:18px 0 6px;padding:17px;background:#fff;border:1px solid #d7e7f0;border-radius:18px;max-width:520px;font-weight:bold}
+.identity input{font:inherit;font-size:20px;min-height:50px;padding:9px 12px;border:2px solid #a8cadb;border-radius:10px;max-width:100%}
+.identity small,.recordNote{font-size:14px;font-weight:normal;color:#586f80}
+.identityError{min-height:23px;color:#b53631;font-weight:bold}
+.records{background:#fff;border:1px solid #d7e7f0;border-radius:20px;padding:18px 20px;margin-top:18px}
+.recordTop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.recordTop h2{margin:0;color:#184d72}.recordButton{border:1px solid #a4c5d5;border-radius:20px;background:#fff;color:#315d77;font-weight:bold;padding:8px 12px;min-height:38px}
+.recordButton:hover,.settingsButton:hover{background:#e8f6fb}
+.recordIntro{margin:10px 0;color:#4c667a}
+.profileList{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}.profileList button{border:2px solid #9bc5d8;background:#f4faff;border-radius:12px;padding:8px 13px;min-height:42px;font-weight:bold}.profileList button.selected{background:#176e9d;border-color:#176e9d;color:#fff}
+.recordGraphWrap{overflow-x:auto;margin:16px 0;border:1px solid #e1edf2;border-radius:13px;background:#fbfdff}.recordGraphWrap svg{display:block;height:270px}
+.recordTable{border-collapse:collapse;width:100%;max-width:620px;margin:12px auto;text-align:center}.recordTable th,.recordTable td{padding:9px 7px;border-bottom:1px solid #d5e7ef}.recordTable th{background:#e8f6fb}.recordEmpty{text-align:center;margin:30px 0;color:#516d7c}.recordHeadline{font-size:20px;font-weight:bold;color:#184d72}
+.top{flex-wrap:wrap}.playerName{margin:7px 0 0;color:#45667c;font-weight:bold}
+@media(max-width:680px){.identity{margin:12px 0 5px}.records{padding:12px 9px}.recordTop h2{font-size:23px}.recordTable{font-size:14px}}
+.nameChoices{display:flex;flex-wrap:wrap;gap:7px}.nameChoices button{border:2px solid #a8cadb;background:#f2faff;border-radius:12px;padding:7px 12px;min-height:40px;font-weight:bold}.nameChoices button:hover{background:#dcedf8}
+.startCircle{display:block;margin:14px auto 0;width:105px;height:105px;border:0;border-radius:50%;background:#ef823a;color:white;font-size:24px;font-weight:bold;box-shadow:0 5px 0 #b95320}.startCircle:active{transform:translateY(4px);box-shadow:0 1px 0 #b95320}
+.timer{font-variant-numeric:tabular-nums}.profileList button.selected{background:#176e9d;color:white}.profileList button:not(.selected){opacity:.65}
+</style>
+</head>
+<body><main class="app">
+<h1>数直線の数字をあてよう</h1><p class="subtitle">ならんだ数を見て、「？」の数を考えよう。</p>
+<label class="identity" id="identityPanel">ニックネーム
+ <input id="nickname" type="text" maxlength="24" autocomplete="off" placeholder="ニックネームを入れてね" aria-describedby="identityHint nicknameError">
+ <div class="nameChoices" id="nameChoices"></div>
+ <small id="identityHint">このタブレットのこのブラウザでの学習記録に使います。</small><span class="identityError" id="nicknameError" aria-live="polite"></span>
+</label>
+<section class="settings" id="settingsPanel" aria-label="問題の設定">
+ <label>コース<select id="course"><option value="easy">らくらく（１０の倍数がある）</option><option value="hard">どきどき（半端な数も出る）</option></select></label>
+ <label>答えかた<select id="mode"><option value="choice">４つからえらぶ</option><option value="pad">数字パッドで入力</option></select></label>
+ <label>目盛りの間かく<select id="step"><option value="mix">まぜる（１・２・３・４・５・１０とび）</option><option value="1">１とび</option><option value="2">２とび</option><option value="3">３とび</option><option value="4">４とび</option><option value="5">５とび</option><option value="10">１０とび</option></select></label>
+ <label>進む向き<select id="direction"><option value="mix">まぜる</option><option value="up">右へ（ふえる）</option><option value="down">左へ（へる）</option></select></label>
+ <label>数のはんい<select id="max"><option value="20">０〜２０</option><option value="50">０〜５０</option><option value="100" selected>０〜１００</option></select></label>
+ <button class="start" id="restart" type="button">設定 →</button>
+</section>
+<section class="board hidden" id="board" aria-live="off">
+ <div class="top"><span class="badge" id="progress">１ / １０ もん</span><span class="badge" id="score">せいかい ０ もん</span><span class="badge timer" id="timer">時間 0:00</span><button type="button" class="recordButton" id="viewRecords">📈 記録</button><button type="button" class="settingsButton" id="backSettings">⚙ 設定に戻る</button></div>
+ <p class="playerName" id="playerName"></p>
+ <div id="play">
+  <button type="button" class="startCircle" id="playStart">スタート</button>
+  <p class="prompt" id="prompt">「？」にはいる数は？</p><p class="subprompt" id="subprompt">数直線を見て、考えよう。</p>
+  <div class="lineWrap" id="lineWrap" role="img" aria-label="数字が書かれた数直線と、答える場所"></div>
+  <div id="choices" class="choiceGrid"></div>
+  <div id="padArea" class="padArea hidden"><div id="display" class="display" aria-label="入力した数字"><span class="placeholder">数字を入れてね</span></div><div class="pad" id="pad"></div></div>
+  <div id="feedback" class="feedback" aria-live="polite"></div>
+  <div class="below"><button type="button" class="hint" id="hint">ヒントを見る</button><button type="button" class="next hidden" id="next">つぎのもんだい →</button></div>
+  <p class="hintText" id="hintText" aria-live="polite"></p>
+ </div><div id="summary" class="summary hidden"><strong id="result"></strong><p>おつかれさま！ もう一度、ちょうせんできるよ。</p><p id="saveStatus" class="recordNote"></p><button type="button" class="start" id="again">もう一度</button><button type="button" class="recordButton" id="summaryRecords">記録を見る</button></div>
+</section><p class="note" id="note">１回１０問。まちがえたら、もう一度えらべます。ヒントも使えます。</p><div class="correctMark" id="correctMark" aria-hidden="true">○</div>
+<section id="recordsPanel" class="records hidden" aria-label="学習記録">
+ <div class="recordTop"><h2 id="recordsTitle">学習記録</h2><button type="button" class="recordButton" id="closeRecords">もどる</button></div>
+ <p class="recordIntro">正答率は、１０問のうち１回目で正解した割合です。記録はこのタブレットのこのブラウザに保存され、ブラウザのサイトデータを消すと削除されます。</p>
+ <div id="profileList" class="profileList hidden"></div><div id="recordContent"></div>
+</section>
+</main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id), config={course:$('course'),mode:$('mode'),step:$('step'),direction:$('direction'),max:$('max')};
+const N=10, steps=[1,2,3,4,5,10], STORAGE_KEY='numberLineRecords.v1'; let settings, problem, round=0, score=0, answered=false, hadError=false, input='', lastSignature='', audioContext, nickname='', recorded=false, recordsOrigin='settings', selectedProfiles=new Set(), playing=false, timerStart=0, timerHandle=null;
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=rand(0,i);[b[i],b[j]]=[b[j],b[i]]}return b};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function validSteps(max){return steps.filter(s=>s*6<=max)}
+function makeProblem(){
+  const possible=validSteps(settings.max), step=settings.step==='mix'?possible[rand(0,possible.length-1)]:Number(settings.step);
+  const dir=settings.direction==='mix'?(Math.random()<.5?'up':'down'):settings.direction;
+  // Seven equally spaced ticks. Easy mode always exposes a positive multiple of ten.
+  const targetIndexes=dir==='up'?[3,4,5]:[1,2,3];
+  let start,targetIndex;
+  if(settings.course==='easy'){
+    const candidates=[];
+    for(let s=0;s<=settings.max-6*step;s++)for(const t of targetIndexes){
+      if(Array.from({length:7},(_,i)=>s+i*step).some((v,i)=>i!==t&&v>0&&v%10===0))candidates.push([s,t]);
+    }
+    [start,targetIndex]=candidates[rand(0,candidates.length-1)];
+  }else{start=rand(0,settings.max-6*step);targetIndex=targetIndexes[rand(0,targetIndexes.length-1)]}
+  const values=Array.from({length:7},(_,i)=>start+i*step);
+  const clues=dir==='up'?[targetIndex-3,targetIndex-2,targetIndex-1]:[targetIndex+3,targetIndex+2,targetIndex+1];
+  // A sparse set still includes two numbered ticks with a known distance.
+  const available=values.map((_,i)=>i).filter(i=>i!==targetIndex);
+  let visible;
+  if(settings.course==='easy'){
+    const tens=available.filter(i=>values[i]>0&&values[i]%10===0);
+    const anchor=tens[rand(0,tens.length-1)];
+    const near=available.filter(i=>i!==anchor).sort((a,b)=>Math.abs(a-anchor)-Math.abs(b-anchor));
+    visible=[anchor,near[0]];
+    const extras=shuffle(available.filter(i=>!visible.includes(i)));
+    visible.push(...extras.slice(0,2));
+  }else{
+    const pairs=[];
+    for(const a of available)for(const b of available)if(b>a&&b-a>=2)pairs.push([a,b]);
+    visible=pairs[rand(0,pairs.length-1)];
+  }
+  visible.sort((a,b)=>a-b);
+  return {step,dir,values,clues,visible,targetIndex,answer:values[targetIndex]};
+}
+function options(p){const set=new Set([p.answer]);const offsets=[-2,-1,1,2,-3,3, -p.step,p.step,-2*p.step,2*p.step, -10,10];for(const d of shuffle(offsets)){const x=p.answer+d;if(x>=0&&x<=settings.max&&x!==p.answer)set.add(x);if(set.size===4)break}for(let x=0;set.size<4&&x<=settings.max;x++)set.add(x);return shuffle([...set].slice(0,4))}
+function lineSvg(p){const xs=Array.from({length:7},(_,i)=>75+i*115),ty=137;
+  const visible=p.visible.map(i=>`<text x="${xs[i]}" y="${ty+57}" text-anchor="middle" font-size="30" font-weight="700" fill="#21465e">${p.values[i]}</text>`).join('');
+  const ticks=xs.map((x,i)=>`<line x1="${x}" x2="${x}" y1="${ty-15}" y2="${ty+16}" stroke="${i===p.targetIndex?'#e88040':'#477a91'}" stroke-width="${i===p.targetIndex?5:3}"/>`).join('');
+  const from=xs[p.clues[0]],to=xs[p.targetIndex];
+  const arrow=p.dir==='up'?`M ${from} 68 H ${to-10} m -13 -10 l 13 10 -13 10`:`M ${from} 68 H ${to+10} m 13 -10 l -13 10 13 10`;
+  const bubble=`<rect x="${xs[p.targetIndex]-32}" y="${ty+26}" width="64" height="56" rx="16" fill="#fff2d8" stroke="#e9a858" stroke-width="3"/><text x="${xs[p.targetIndex]}" y="${ty+65}" text-anchor="middle" font-size="35" font-weight="800" fill="#a45128">？</text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 245" aria-hidden="true"><text x="420" y="33" text-anchor="middle" font-size="19" font-weight="700" fill="#35728e">${p.dir==='up'?'右へ進む →':'← 左へ進む'}</text><path d="${arrow}" fill="none" stroke="#e68b43" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><line x1="56" x2="784" y1="${ty}" y2="${ty}" stroke="#477a91" stroke-width="4" stroke-linecap="round"/><path d="M 777 ${ty-7} L 788 ${ty} L 777 ${ty+7}" fill="none" stroke="#477a91" stroke-width="3" stroke-linejoin="round"/>${ticks}${visible}${bubble}</svg>`;
+}
+function render(){answered=false;hadError=false;input='';$('play').classList.remove('hidden');$('summary').classList.add('hidden');$('next').classList.add('hidden');$('feedback').textContent='';$('feedback').className='feedback';$('hintText').textContent='';$('hint').classList.remove('hidden');$('progress').textContent=`${round+1} / ${N} もん`;$('score').textContent=`せいかい ${score} もん`;
+ $('prompt').textContent='「？」にはいる数は？';$('subprompt').textContent=problem.dir==='up'?'右へ進むと、数はふえていくよ。':'左へ進むと、数はへっていくよ。';
+ $('lineWrap').innerHTML=lineSvg(problem);$('lineWrap').setAttribute('aria-label',`数直線。${problem.dir==='up'?'右へ':'左へ'}進む。左から順に、${problem.values.map((v,i)=>i===problem.targetIndex?'はてな':problem.visible.includes(i)?v:'数字なし').join('、')}。`);
+ const isChoice=settings.mode==='choice';$('choices').classList.toggle('hidden',!isChoice);$('padArea').classList.toggle('hidden',isChoice);
+ if(isChoice){$('choices').innerHTML=options(problem).map(v=>`<button class="choice" type="button" data-value="${v}" aria-label="${v}">${v}</button>`).join('')}else updateDisplay();
+}
+function updateDisplay(){$('display').innerHTML=input?esc(input):'<span class="placeholder">数字を入れてね</span>';const b=$('pad').querySelector('[data-action="ok"]');if(b)b.disabled=answered||!input}
+function generatePad(){const keys=['1','2','3','4','5','6','7','8','9','けす','0','こたえる'];$('pad').innerHTML=keys.map(k=>{let action=k==='けす'?'delete':k==='こたえる'?'ok':'digit',klass=action==='ok'?'key submit':action==='delete'?'key action':'key';return `<button type="button" class="${klass}" data-action="${action}" ${action==='digit'?`data-digit="${k}"`:''}>${k}</button>`}).join('')}
+function playCorrectSound(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;audioContext=audioContext||new Audio();if(audioContext.state==='suspended')audioContext.resume();const now=audioContext.currentTime;[[784,0],[587.33,.23]].forEach(([freq,delay])=>{const osc=audioContext.createOscillator(),gain=audioContext.createGain(),t=now+delay;osc.type='sine';osc.frequency.setValueAtTime(freq,t);gain.gain.setValueAtTime(.001,t);gain.gain.exponentialRampToValueAtTime(.16,t+.018);gain.gain.exponentialRampToValueAtTime(.001,t+.24);osc.connect(gain);gain.connect(audioContext.destination);osc.start(t);osc.stop(t+.26)})}catch(e){/* 音声を使えない端末でも問題は続けられる */}}
+function showCorrectMark(){$('correctMark').classList.remove('show');void $('correctMark').offsetWidth;$('correctMark').classList.add('show')}
+function check(value,button){if(!playing||answered)return;if(value===problem.answer){answered=true;showCorrectMark();playCorrectSound();if(!hadError)score++;$('score').textContent=`せいかい ${score} もん`;$('feedback').textContent=`せいかい！ ${problem.step}ずつ ${problem.dir==='up'?'ふえて':'へって'}、答えは ${value}。`;$('feedback').className='feedback good';$('hint').classList.add('hidden');$('next').classList.remove('hidden');$('next').textContent=round===N-1?'けっかを見る →':'つぎのもんだい →';if(settings.mode==='choice'){$('choices').querySelectorAll('button').forEach(b=>{b.disabled=true;if(Number(b.dataset.value)===value)b.classList.add('correct')})}else $('pad').querySelectorAll('button').forEach(b=>b.disabled=true)}else{hadError=true;$('feedback').textContent='もういちど考えてみよう。';$('feedback').className='feedback bad';if(button){button.classList.add('wrong');button.disabled=true}else{input='';updateDisplay()}}}
+function readRecords(){try{const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return Array.isArray(data)?data.filter(r=>r&&typeof r.nickname==='string'&&/^\d{4}-\d\d-\d\d$/.test(r.date)&&Number.isInteger(r.correct)&&r.correct>=0&&r.correct<=10&&r.total===10):[]}catch(e){return null}}
+function knownNames(){const records=readRecords()||[];let names=[];try{names=JSON.parse(localStorage.getItem('numberLineNames.v1')||'[]')}catch(e){}return [...new Set([...records.map(r=>r.nickname),...(Array.isArray(names)?names:[])].filter(n=>typeof n==='string'&&n.trim()&&n.toLowerCase()!=='teacher'))].sort((a,b)=>a.localeCompare(b,'ja'))}
+function renderNames(){const names=knownNames();$('nameChoices').innerHTML=names.length?'<small>この端末で使った名前：</small>'+names.map((n,i)=>`<button type="button" data-name="${i}">${esc(n)}</button>`).join(''):''}
+function rememberName(name){try{localStorage.setItem('numberLineNames.v1',JSON.stringify([...new Set([...knownNames(),name])]))}catch(e){}renderNames()}
+function tickTimer(){const sec=Math.floor((performance.now()-timerStart)/1000);$('timer').textContent=`時間 ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`}
+function stopTimer(){if(timerHandle)clearInterval(timerHandle);timerHandle=null;playing=false}
+function beginPlay(){if(playing)return;playing=true;timerStart=performance.now();tickTimer();timerHandle=setInterval(tickTimer,250);$('playStart').classList.add('hidden');$('choices').classList.toggle('hidden',settings.mode!=='choice');$('padArea').classList.toggle('hidden',settings.mode!=='pad');$('hint').classList.remove('hidden');$('prompt').textContent='「？」にはいる数は？'}
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function saveRecord(){if(recorded)return true;const all=readRecords();if(!all)return false;all.push({nickname,date:today(),correct:score,total:N});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(all));recorded=true;return true}catch(e){return false}}
+function graph(rows){const width=Math.max(670,120+rows.length*76),left=68,right=width-24,base=202;
+ const points=rows.map((r,i)=>({x:80+i*76,y:base-r.correct*17,pct:r.correct*10,date:r.date.slice(5).replace('-','/')}));
+ const grid=[100,50,0].map(p=>{const y=base-p*1.7;return `<line x1="${left}" y1="${y}" x2="${right}" y2="${y}" stroke="#cfe3ee"/><text x="${left-9}" y="${y+5}" text-anchor="end" font-size="14" fill="#47667b">${p}%</text>`}).join('');
+ const path=points.length>1?`<polyline points="${points.map(p=>`${p.x},${p.y}`).join(' ')}" fill="none" stroke="#2780af" stroke-width="3"/>`:'';
+ const dots=points.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="7" fill="#ee7e46" stroke="white" stroke-width="2"/><text x="${p.x}" y="${p.y-13}" text-anchor="middle" font-size="15" font-weight="bold" fill="#184d72">${p.pct}%</text><text x="${p.x}" y="229" text-anchor="middle" font-size="13" fill="#294f68">${i+1}回目</text><text x="${p.x}" y="247" text-anchor="middle" font-size="12" fill="#5a7180">${p.date}</text>`).join('');
+ return `<div class="recordGraphWrap"><svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="270" viewBox="0 0 ${width} 270" role="img" aria-label="${esc(rows.length)}回分の正答率のグラフ">${grid}${path}${dots}</svg></div>`;
+}
+function overlayGraph(all,profiles){const selected=profiles.filter(n=>selectedProfiles.has(n)),max=Math.max(1,...selected.map(n=>all.filter(r=>r.nickname===n).length)),width=Math.max(670,130+max*76),base=202;
+ const colors=['#1479b0','#e36b35','#8a54ad','#249369','#ca425d','#9b7522'];
+ const grid=[100,50,0].map(p=>`<line x1="68" y1="${base-p*1.7}" x2="${width-22}" y2="${base-p*1.7}" stroke="#cfe3ee"/><text x="58" y="${base-p*1.7+5}" text-anchor="end" font-size="14">${p}%</text>`).join('');
+ const lines=selected.map(name=>{const rows=all.filter(r=>r.nickname===name),color=colors[profiles.indexOf(name)%colors.length],pts=rows.map((r,i)=>[80+i*76,base-r.correct*17]);return `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${color}" stroke-width="3"/>`+pts.map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="6" fill="${color}"/><title>${esc(name)} ${i+1}回目 ${rows[i].date} ${rows[i].correct*10}%</title>`).join('')}).join('');
+ const labels=Array.from({length:max},(_,i)=>`<text x="${80+i*76}" y="237" text-anchor="middle" font-size="13">${i+1}回目</text>`).join('');
+ return `<div class="recordGraphWrap"><svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="270" viewBox="0 0 ${width} 270" role="img" aria-label="選択した子どもの正答率を重ねたグラフ">${grid}${lines}${labels}</svg></div>`;
+}
+function renderRecords(){const all=readRecords(),teacher=nickname.toLowerCase()==='teacher';$('recordsTitle').textContent=teacher?'指導者用：みんなの学習記録':`${nickname} さんの学習記録`;
+ if(!all){$('profileList').classList.add('hidden');$('recordContent').innerHTML='<p class="recordEmpty">このブラウザでは記録を読み出せません。保存の設定をご確認ください。</p>';return}
+ const profiles=[...new Set(all.map(r=>r.nickname).filter(n=>n.toLowerCase()!=='teacher'))].sort((a,b)=>a.localeCompare(b,'ja'));
+ $('profileList').classList.toggle('hidden',!teacher||!profiles.length);
+ if(teacher){$('profileList').innerHTML=profiles.map((name,i)=>`<button type="button" data-profile="${i}" class="${selectedProfiles.has(name)?'selected':''}" style="border-color:${['#1479b0','#e36b35','#8a54ad','#249369','#ca425d','#9b7522'][i%6]}" aria-pressed="${selectedProfiles.has(name)}">${esc(name)}（${all.filter(r=>r.nickname===name).length}回）</button>`).join('');const details=profiles.filter(n=>selectedProfiles.has(n)).map(n=>`<h3>${esc(n)}</h3><table class="recordTable"><thead><tr><th>何回目</th><th>日付</th><th>正解</th><th>正答率</th></tr></thead><tbody>${all.filter(r=>r.nickname===n).map((r,i)=>`<tr><td>${i+1}回目</td><td>${esc(r.date)}</td><td>${r.correct} / ${r.total}</td><td>${r.correct*10}%</td></tr>`).join('')}</tbody></table>`).join('');$('recordContent').innerHTML=profiles.length?`<p class="recordHeadline">名前を押すとグラフの表示を切り替えられます。</p>${overlayGraph(all,profiles)}${details}`:'<p class="recordEmpty">まだ記録がありません。</p>';return}
+ const rows=all.filter(r=>r.nickname===nickname);
+ if(!rows.length){$('recordContent').innerHTML='<p class="recordEmpty">まだ記録がありません。１０問おわると、ここに表示されます。</p>';return}
+ const table=rows.map((r,i)=>`<tr><td>${i+1}回目</td><td>${esc(r.date)}</td><td>${r.correct} / ${r.total}</td><td>${Math.round(r.correct/r.total*100)}%</td></tr>`).join('');
+ $('recordContent').innerHTML=`<p class="recordHeadline">${esc(nickname)} さん：${rows.length}回の記録</p>${graph(rows)}<table class="recordTable"><thead><tr><th>何回目</th><th>日付</th><th>正解</th><th>正答率</th></tr></thead><tbody>${table}</tbody></table>`;
+}
+function openRecords(){recordsOrigin=$('board').classList.contains('hidden')?'settings':'board';$('settingsPanel').classList.add('hidden');$('identityPanel').classList.add('hidden');$('board').classList.add('hidden');$('note').classList.add('hidden');$('recordsPanel').classList.remove('hidden');renderRecords()}
+function closeRecords(){$('recordsPanel').classList.add('hidden');if(recordsOrigin==='board'){$('board').classList.remove('hidden');$('note').classList.remove('hidden')}else{$('settingsPanel').classList.remove('hidden');$('identityPanel').classList.remove('hidden')}}
+function fitRange(){if(config.step.value==='mix'||validSteps(Number(config.max.value)).includes(Number(config.step.value)))return;const fitting=[20,50,100].find(m=>validSteps(m).includes(Number(config.step.value)));config.max.value=String(fitting)}
+function start(){const name=$('nickname').value.trim();if(!name){$('nicknameError').textContent='ニックネームを入れてね。';$('nickname').focus();return}$('nicknameError').textContent='';nickname=name;if(name.toLowerCase()==='teacher'){selectedProfiles=new Set(knownNames());openRecords();return}rememberName(name);fitRange();settings={course:config.course.value,mode:config.mode.value,step:config.step.value,direction:config.direction.value,max:Number(config.max.value)};round=0;score=0;recorded=false;problem=makeProblem();lastSignature=`${problem.step}-${problem.dir}-${problem.answer}`;$('identityPanel').classList.add('hidden');$('settingsPanel').classList.add('hidden');$('board').classList.remove('hidden');$('note').classList.remove('hidden');$('playerName').textContent=`${nickname} さん`;render();$('playStart').classList.remove('hidden');$('choices').classList.add('hidden');$('padArea').classList.add('hidden');$('hint').classList.add('hidden');$('prompt').textContent='スタートを押してね';$('timer').textContent='時間 0:00'}
+function next(){round++;if(round===N){stopTimer();$('play').classList.add('hidden');$('summary').classList.remove('hidden');$('progress').textContent='１０ / １０ もん';$('result').textContent=`${N}もん中 ${score}もん せいかい`;$('saveStatus').textContent=saveRecord()?'学習記録を保存しました。':'記録を保存できませんでした。ブラウザの保存設定をご確認ください。';return}let p;for(let n=0;n<8;n++){p=makeProblem();const signature=`${p.step}-${p.dir}-${p.answer}`;if(signature!==lastSignature){lastSignature=signature;break}}problem=p;render()}
+generatePad();renderNames();$('nameChoices').addEventListener('click',e=>{const b=e.target.closest('[data-name]');if(b)$('nickname').value=knownNames()[Number(b.dataset.name)]||''});$('playStart').addEventListener('click',beginPlay);$('restart').addEventListener('click',start);$('again').addEventListener('click',start);$('next').addEventListener('click',next);$('nickname').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();start()}});$('nickname').addEventListener('input',()=>{$('nicknameError').textContent=''});$('backSettings').addEventListener('click',()=>{stopTimer();$('board').classList.add('hidden');$('identityPanel').classList.remove('hidden');$('settingsPanel').classList.remove('hidden');$('note').classList.add('hidden');$('correctMark').classList.remove('show')});$('note').classList.add('hidden');
+$('viewRecords').addEventListener('click',openRecords);$('summaryRecords').addEventListener('click',openRecords);$('closeRecords').addEventListener('click',closeRecords);
+$('profileList').addEventListener('click',e=>{const b=e.target.closest('[data-profile]');if(!b)return;const all=readRecords()||[],names=[...new Set(all.map(r=>r.nickname))].sort((a,c)=>a.localeCompare(c,'ja'));const name=names[Number(b.dataset.profile)];if(!name)return;if(selectedProfiles.has(name))selectedProfiles.delete(name);else selectedProfiles.add(name);renderRecords()});
+$('choices').addEventListener('click',e=>{const b=e.target.closest('[data-value]');if(b)check(Number(b.dataset.value),b)});
+$('pad').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b||!playing||answered)return;if(b.dataset.action==='digit'){const v=(input+b.dataset.digit).replace(/^0+(?=\d)/,'');if(v.length<=3&&Number(v)<=settings.max)input=v}else if(b.dataset.action==='delete')input=input.slice(0,-1);else if(input)check(Number(input));updateDisplay()});
+document.addEventListener('keydown',e=>{if(!settings||$('board').classList.contains('hidden')||settings.mode!=='pad'||!playing||answered||e.target.tagName==='SELECT')return;let b;if(/^\d$/.test(e.key))b=$('pad').querySelector(`[data-digit="${e.key}"]`);else if(e.key==='Backspace')b=$('pad').querySelector('[data-action="delete"]');else if(e.key==='Enter')b=$('pad').querySelector('[data-action="ok"]');if(b&&!b.disabled){e.preventDefault();b.click()}});
+$('hint').addEventListener('click',()=>{if(!playing)return;$('hintText').textContent=`となりどうしの数をくらべよう。${problem.clues.map(i=>problem.values[i]).join(' → ')}。いくつずつ ${problem.dir==='up'?'ふえる':'へる'}かな？`});
+config.step.addEventListener('change',fitRange);
+config.max.addEventListener('change',()=>{const max=Number(config.max.value);if(config.step.value!=='mix'&&!validSteps(max).includes(Number(config.step.value)))config.step.value='mix'});
+})();
+</script></body></html>
